@@ -12,3 +12,5 @@ TODO.md
 students_grades.csv
 .env
 yoyo.ini
+.dockerfile-uv_checksum
+.uvlock_checksum

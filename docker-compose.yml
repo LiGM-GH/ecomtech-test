@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  db:
+    image: docker.io/postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ecomtech-test
+      TZ: Europe/Moscow
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "8001:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    environment:
+      TZ: Europe/Moscow
+      DB_CONN: "postgresql://postgres:postgres@db:5432/ecomtech-test"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    command: >
+      bash -c 'uv run yoyo init --database $$DB_CONN migrations; uv run yoyo apply && uv run uvicorn main:app --host 0.0.0.0 --port 8000 || sleep 600'
+
+volumes:
+  db_data:
