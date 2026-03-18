@@ -15,13 +15,14 @@ default:
 
 # Start the server
 watch:
-    uv run uvicorn main:app --reload --log-level=debug
+    uv run --locked uvicorn main:app --reload --log-level=debug
 
 # Start the docker
 start: update-uv-docker
     docker-compose build --no-cache
     docker-compose up
 
+# Update Uv docker image with pre-downloaded Python and libraries.
 [script("bash")]
 update-uv-docker:
     if \

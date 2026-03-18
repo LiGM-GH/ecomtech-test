@@ -29,7 +29,7 @@ services:
     ports:
       - "8000:8000"
     command: >
-      bash -c 'uv run yoyo init --database $$DB_CONN migrations; uv run yoyo apply && uv run uvicorn main:app --host 0.0.0.0 --port 8000 || sleep 600'
+      bash -c 'UV_LOCKED=1 uv run yoyo init --database $$DB_CONN migrations; uv run yoyo apply && uv run uvicorn main:app --host 0.0.0.0 --port 8000 || sleep 600'
 
 volumes:
   db_data:
