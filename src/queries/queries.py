@@ -6,7 +6,7 @@ from typing import cast
 
 from psycopg_pool import AsyncConnectionPool
 
-from models.mark import Mark
+from src.models.mark import Mark
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ class StudentMarkCount:
 
 async def insert_students(marks: Iterable[Mark]) -> StudentsInsertionResult:
     """
-    Insert students into the database.
+    Inserts students into the database.
     """
 
     async with pool.connection() as conn:
